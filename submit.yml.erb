@@ -1,0 +1,10 @@
+---
+batch_connect:
+  template: "vnc"
+script:
+  accounting_id: <%= account %>
+  native:
+    - "-l"
+    - "select=1:ncpus=<%= bc_num_slots.blank? ? 1 : bc_num_slots.to_i %>:mem=7gb"
+    - "-q"
+    - "apps"

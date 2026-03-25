@@ -1,0 +1,66 @@
+<%-
+  groups = OodSupport::User.new.groups.sort_by(&:id).tap { |groups|
+    groups.unshift(groups.delete(OodSupport::Process.group))
+  }.map(&:name).grep(/^P./)
+-%>
+---
+cluster:
+- "PBS"
+form:
+  #- account
+  #- node_type
+  #- bc_num_slots
+  - bc_num_hours
+  #- version
+  - bc_vnc_resolution
+  - bc_email_on_started
+attributes:
+  bc_num_hours:
+    widget: "number_field"
+    label: "Max Runtime"
+    value: 1
+    help: |
+      Number of hours that the app will be allowed to run; min 1, max 13.
+    min: 1
+    max: 13
+    step: 1
+  bc_num_slots:
+    widget: "number_field"
+    label: "CPU Cores"
+    value: 1
+    help: |
+      **Min 1, Max 4** - Choose the number of CPU processors. Use only up to 3 cores for debugging. Your application may be stopped if processors are underutilized.
+    min: 1
+    max: 4
+    step: 1
+  node_type:
+    widget: select
+    label: "Queue"
+    selected: "cpu"
+    help: |
+      - **cpu** - Use the default CPU queue.
+      - **gpu** - Use the default GPU queue.
+    options:
+      - [
+          "cpu", "node",
+          data-max-num-cores: 3,
+        ]
+      - [ 
+          "gpu", "gpu",
+          data-max-num-cores: 3,
+        ]
+  bc_vnc_resolution:
+    required: true
+  account:
+    label: "Project"
+    widget: select
+    options:
+      <%- groups.each do |group| %>
+      - "<%= group %>"
+      <%- end %>
+  version:
+    widget: select
+    label: "Version"
+    help: "Choose from the available software versions."
+    options:
+     - [ "1.0", "1.0" ]

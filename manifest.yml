@@ -1,0 +1,8 @@
+---
+name: "DeepLabCut"
+category: Interactive Apps
+subcategory: Graphical Interface
+role: batch_connect
+description: |
+  This app will launch DeepLabCut on the [Colgate Supercomputer]. You will be able to interact with the Graphical User Interface (GUI) through a VNC session. 
+  [Colgate supercomputer]: https://rcd.colgate.edu/

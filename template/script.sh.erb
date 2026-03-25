@@ -1,0 +1,24 @@
+#!/usr/bin/env bash 
+
+# Set working directory to PBS directory 
+cd "${HOME}"
+
+#
+# Launch Xfce
+#
+
+(
+  export SEND_256_COLORS_TO_REMOTE=1
+  export XDG_CONFIG_HOME="<%= session.staged_root.join("config") %>"
+  export XDG_DATA_HOME="<%= session.staged_root.join("share") %>"
+  export XDG_CACHE_HOME="$(mktemp -d)"
+
+  set -x
+  xfwm4 --compositor=off --sm-client-disable
+  xsetroot -solid "#821019"
+) &
+
+sleep 3
+
+# Launch deeplabcut; present initialization text
+xfce4-terminal --command="bash -c 'echo \"Wait for DeepLabCut to initialize...\" && source /apps/deeplabcut/bin/activate && conda activate DEEPLABCUT && python -m deeplabcut'" 
